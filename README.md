@@ -1,4 +1,6 @@
-# Nunjucks
+# nunjucks-no-chokidar
+
+**No chokidar dependency** patch version for Nunjucks
 
 [Nunjucks](http://mozilla.github.io/nunjucks/) is a full featured
 templating engine for javascript. It is heavily inspired by
@@ -7,9 +9,9 @@ templating engine for javascript. It is heavily inspired by
 
 ## Installation
 
-`npm install nunjucks`
+`npm install nunjucks-no-chokidar`
 
-(View the [CHANGELOG](https://github.com/mozilla/nunjucks/releases))
+(View the [CHANGELOG](https://github.com/node-modules/nunjucks/releases))
 
 ## Documentation
 
@@ -28,4 +30,5 @@ https://groups.google.com/forum/?fromgroups#!forum/nunjucks
 
 ## Contributors
 
-https://github.com/mozilla/nunjucks/graphs/contributors
+- https://github.com/mozilla/nunjucks/graphs/contributors
+- https://github.com/node-modules/nunjucks/graphs/contributors
