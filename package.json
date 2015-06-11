@@ -4,8 +4,7 @@
     "version": "1.1.0",
     "author": "James Long <longster@gmail.com>",
     "dependencies": {
-        "optimist": "*",
-        "chokidar": "~0.9.0"
+        "optimist": "*"
     },
     "browser" : "./browser/nunjucks.js",
     "devDependencies": {
@@ -28,13 +27,13 @@
     "main": "index",
     "repository": {
         "type": "git",
-        "url": "https://github.com/mozilla/nunjucks.git"
+        "url": "https://github.com/node-modules/nunjucks.git"
     },
     "license": [{
         "type": "BSD",
-        "url": "https://github.com/mozilla/nunjucks/blob/master/LICENSE"
+        "url": "https://github.com/node-modules/nunjucks/blob/master/LICENSE"
     }],
     "bugs": {
-        "url": "https://github.com/mozilla/nunjucks/issues"
+        "url": "https://github.com/node-modules/nunjucks/issues"
     }
 }

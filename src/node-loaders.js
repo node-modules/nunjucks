@@ -2,7 +2,6 @@ var fs = require('fs');
 var path = require('path');
 var lib = require('./lib');
 var Loader = require('./loader');
-var chokidar = require('chokidar');
 
 // Node <0.7.1 compatibility
 var existsSync = fs.existsSync || path.existsSync;
@@ -20,20 +19,9 @@ var FileSystemLoader = Loader.extend({
             this.searchPaths = ['.'];
         }
 
+        // remove chokidar deps, noWatch
         if(!noWatch) {
-            // Watch all the templates in the paths and fire an event when
-            // they change
-            lib.each(this.searchPaths, function(p) {
-                if(existsSync(p)) {
-                    var watcher = chokidar.watch(p, { ignoreInitial: true });
-
-                    watcher.on("all", function(event, fullname) {
-                        if(event == "change" && fullname in this.pathsToNames) {
-                            this.emit('update', this.pathsToNames[fullname]);
-                        }
-                    }.bind(this));
-                }
-            }.bind(this));
+            console.warn('nunjucks remove chokidar deps, no watch support now');
         }
     },
 
