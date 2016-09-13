@@ -424,11 +424,20 @@
         it('should work with non-string values', function(done) {
             equal('{{ foo | escape }}', {foo: null}, '');
             equal('{{ foo | escape }}', {foo: ['<html>']}, '&lt;html&gt;');
+            equal('a {{ foo | escape }}', {foo: ['<html>']}, 'a &lt;html&gt;');
             render('{{ foo }}', { foo: {toString: function() {return '<p>foo</p>'}}}, { autoescape: true }, function(err, res) {
                 expect(res).to.be('&lt;p&gt;foo&lt;/p&gt;');
             });
             render('{{ foo }}', { foo: {toString: function() {return '<p>foo</p>'}}}, { autoescape: false }, function(err, res) {
                 expect(res).to.be('<p>foo</p>');
+            });
+
+            equal('{{ foo | safe }}', {foo: ['<html>']}, '<html>');
+            render('{{ foo | safe }}', { foo: {toString: function() {return '<p>foo</p>'}}}, { autoescape: true }, function(err, res) {
+                expect(res).to.be('<p>foo</p>');
+            });
+            render('a {{ foo | safe }}', { foo: {toString: function() {return '<p>foo</p>'}}}, { autoescape: true }, function(err, res) {
+                expect(res).to.be('a <p>foo</p>');
             });
             finish(done);
         });
