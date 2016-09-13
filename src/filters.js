@@ -97,7 +97,7 @@ var filters = {
     },
 
     escape: function(str) {
-        if (str == null) str = '';
+        if(str == null) str = '';
         if(str instanceof r.SafeString) {
             return str;
         }
@@ -105,7 +105,11 @@ var filters = {
     },
 
     safe: function(str) {
-        return r.markSafe(str);
+        if(str == null) str = '';
+        if(str instanceof r.SafeString) {
+            return str;
+        }
+        return r.markSafe(str.toString());
     },
 
     first: function(arr) {
