@@ -1,4 +1,9 @@
 
+1.3.7 / 2016-09-14
+==================
+
+  * fix: support two versions nunjuck in one vm runtime (#4)
+
 1.3.6 / 2016-09-13
 ==================
 
