@@ -196,10 +196,21 @@ function markSafe(val) {
     }
 }
 
+function isSafeString(obj) {
+  if (obj instanceof SafeString) {
+    return true;
+  }
+  if (obj && obj.constructor.name === 'SafeString') {
+    return true;
+  }
+
+  return false;
+}
+
 function suppressValue(val, autoescape) {
     val = (val !== undefined && val !== null) ? val : '';
 
-    if(autoescape && !(val instanceof SafeString)) {
+    if(autoescape && !isSafeString(val)) {
         val = lib.escape(val.toString());
     }
 
@@ -333,6 +344,7 @@ module.exports = {
     isArray: lib.isArray,
     keys: lib.keys,
     SafeString: SafeString,
+    isSafeString: isSafeString,
     copySafeness: copySafeness,
     markSafe: markSafe,
     asyncEach: asyncEach,

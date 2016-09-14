@@ -441,5 +441,23 @@
             });
             finish(done);
         });
+
+        it('should not escape custom SafeString', function(done) {
+            function SafeString(str) {
+                this.str = str;
+            }
+            SafeString.prototype.toString = function() {
+                return this.str;
+            };
+
+            equal('{{ foo | safe }}', {foo: new SafeString('<html>') }, '<html>');
+            render('{{ foo | safe }}', { foo: {toString: function() {return new SafeString('<p>foo</p>') }}}, { autoescape: true }, function(err, res) {
+                expect(res).to.be('<p>foo</p>');
+            });
+            render('a {{ foo | safe }}', { foo: {toString: function() {return new SafeString('<p>foo</p>') }}}, { autoescape: true }, function(err, res) {
+                expect(res).to.be('a <p>foo</p>');
+            });
+            finish(done);
+        });
     });
 })();

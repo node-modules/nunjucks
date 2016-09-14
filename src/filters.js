@@ -98,7 +98,7 @@ var filters = {
 
     escape: function(str) {
         if(str == null) str = '';
-        if(str instanceof r.SafeString) {
+        if(r.isSafeString(str)) {
             return str;
         }
         return r.markSafe(lib.escape(str.toString()));
@@ -106,7 +106,7 @@ var filters = {
 
     safe: function(str) {
         if(str == null) str = '';
-        if(str instanceof r.SafeString) {
+        if(r.isSafeString(str)) {
             return str;
         }
         return r.markSafe(str.toString());
