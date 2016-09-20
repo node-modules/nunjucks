@@ -443,19 +443,43 @@
         });
 
         it('should not escape custom SafeString', function(done) {
-            function SafeString(str) {
-                this.str = str;
+            function SafeString(val) {
+                if (typeof val !== 'string') {
+                    return val;
+                }
+
+                this.val = val;
             }
+
+            SafeString.prototype = Object.create(String.prototype);
+            SafeString.prototype.valueOf = function() {
+                return this.val;
+            };
             SafeString.prototype.toString = function() {
-                return this.str;
+                return this.val;
             };
 
             equal('{{ foo | safe }}', {foo: new SafeString('<html>') }, '<html>');
+            equal('{{ foo }}', {foo: new SafeString('<html>') }, '<html>');
+            render('{{ foo | safe }}', { foo: {toString: function() {return new SafeString('<p>foo</p>') }}}, { autoescape: true }, function(err, res) {
+                expect(res).to.be('<p>foo</p>');
+            });
+            render('{{ foo }}', { foo: new SafeString('<p>foo</p>') }, { autoescape: true }, function(err, res) {
+                expect(res).to.be('<p>foo</p>');
+            });
+            render('a {{ foo }}', { foo: new SafeString('<p>foo</p>') }, { autoescape: true }, function(err, res) {
+                expect(res).to.be('a <p>foo</p>');
+            });
             render('{{ foo | safe }}', { foo: {toString: function() {return new SafeString('<p>foo</p>') }}}, { autoescape: true }, function(err, res) {
                 expect(res).to.be('<p>foo</p>');
             });
             render('a {{ foo | safe }}', { foo: {toString: function() {return new SafeString('<p>foo</p>') }}}, { autoescape: true }, function(err, res) {
                 expect(res).to.be('a <p>foo</p>');
+            });
+
+            // escape
+            render('{{ foo }}', { foo: '<p>foo</p>' }, { autoescape: true }, function(err, res) {
+                expect(res).to.be('&lt;p&gt;foo&lt;/p&gt;');
             });
             finish(done);
         });

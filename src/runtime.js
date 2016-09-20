@@ -200,8 +200,11 @@ function isSafeString(obj) {
   if (obj instanceof SafeString) {
     return true;
   }
-  if (obj && obj.constructor.name === 'SafeString') {
-    return true;
+
+  if (obj && typeof obj === 'object') {
+    if (obj.constructor.name === 'String' || obj.constructor.name === 'SafeString') {
+      return true;
+    }
   }
 
   return false;
