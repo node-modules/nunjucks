@@ -440,7 +440,7 @@ var Compiler = Object.extend({
                 return this._getNodeName(node.target) + '["' +
                        this._getNodeName(node.val) + '"]';
             case 'Literal':
-                return node.value.toString().substr(0, 10);
+                return node.value.toString().substr(0, 30);
             default:
                 return '--expression--';
         }
