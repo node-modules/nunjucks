@@ -24,7 +24,7 @@
             var env = new Environment();
 
             expect(
-                () => {
+                function() {
                     env.renderString('{{name.prototype.toString.constructor("return global.process.version")()}}', {
                         name: 'bar',
                     });
@@ -32,7 +32,7 @@
             ).to.throwError(/Unable to call `name\["prototype"\]\["toString"\]\["constructor"\]`, which is undefined or falsey/);
 
             expect(
-                () => {
+                function() {
                     env.renderString('{{name.prototype.toString[name]("return global.process.version")()}}', {
                         name: 'constructor',
                     });
@@ -40,7 +40,7 @@
             ).to.throwError(/Unable to call `name\["prototype"\]\["toString"\]\["name"\]`, which is undefined or falsey/);
 
             expect(
-                () => {
+                function() {
                     env.renderString('{{global.process.mainModule.require(\'os\').platform()}}', {
                         name: 'constructor',
                     });
@@ -48,11 +48,8 @@
             ).to.throwError(/Unable to call `global\["process"\]\["mainModule"\]\["require"\]`, which is undefined or falsey/);
 
             expect(
-                () => {
-                    env.renderString(`
-                        {% set username = joiner.constructor("return global.process.version")() %}
-                        {{username}}
-                    `, {
+                function() {
+                    env.renderString('{% set username = joiner.constructor("return global.process.version")() %} {{username}}', {
                         name: 'bar',
                     });
                 }
