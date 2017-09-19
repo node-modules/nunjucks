@@ -221,6 +221,9 @@ function suppressValue(val, autoescape) {
 }
 
 function memberLookup(obj, val) {
+    if (val === 'constructor' || val === 'prototype') {
+        return null;
+    }
     obj = obj || {};
 
     if(typeof obj[val] === 'function') {
