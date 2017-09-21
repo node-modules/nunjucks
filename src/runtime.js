@@ -221,26 +221,42 @@ function suppressValue(val, autoescape) {
 }
 
 function memberLookup(obj, val) {
+    if (obj == null) {
+        return null;
+    }
+
     if (val === 'constructor' || val === 'prototype') {
         return null;
     }
-    obj = obj || {};
+    // forbidden __xxxx__ properties
+    if (/^__\w{1,100}__$/.test(val)) {
+        return null;
+    }
 
-    if(typeof obj[val] === 'function') {
+    var member = obj[val];
+    if(typeof member === 'function') {
+        // forbidden require
+        if(member === module.require) {
+            return null;
+        }
         return function() {
-            return obj[val].apply(obj, arguments);
+            return member.apply(obj, arguments);
         };
     }
 
-    return obj[val];
+    return member;
 }
 
 function callWrap(obj, name, args) {
     if(!obj) {
         throw new Error('Unable to call `' + name + '`, which is undefined or falsey');
     }
-    else if(typeof obj !== 'function') {
+    if(typeof obj !== 'function') {
         throw new Error('Unable to call `' + name + '`, which is not a function');
+    }
+    // forbidden require
+    if(obj === module.require) {
+        throw new Error('Unable to call `' + name + '`, which is an invalid function');
     }
 
     return obj.apply(this, args);
