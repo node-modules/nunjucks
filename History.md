@@ -1,4 +1,10 @@
 
+1.3.10 / 2017-09-22
+==================
+
+**fixes**
+  * [[`a8924cb`](http://github.com/node-modules/nunjucks/commit/a8924cbbd6a9cc69c235d918b89ed4f0efff3107)] - fix: [security] try to forbidden module.require (#6) (fengmk2 <<fengmk2@gmail.com>>)
+
 1.3.9 / 2017-09-19
 ==================
 
