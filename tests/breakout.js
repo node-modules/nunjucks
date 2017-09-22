@@ -33,6 +33,14 @@
 
             expect(
                 function() {
+                    console.log(env.renderString('{{name.__proto__.toString()}}', {
+                        name: 'bar',
+                    }));
+                }
+            ).to.throwError(/Unable to call `name\["__proto__"\]\["toString"\]`, which is undefined or falsey/);
+
+            expect(
+                function() {
                     env.renderString('{{name.prototype.toString[name]("return global.process.version")()}}', {
                         name: 'constructor',
                     });
@@ -54,6 +62,69 @@
                     });
                 }
             ).to.throwError(/Unable to call `joiner\["constructor"\]`, which is undefined or falsey/);
+
+            expect(
+                function() {
+                    console.log(env.renderString('{{require(\'os\').platform()}}', {
+                        name: 'bar',
+                        require: module.require,
+                    }));
+                }
+            ).to.throwError(/Unable to call `require`, which is an invalid function/);
+
+            expect(
+                function() {
+                    console.log(env.renderString('{{foo(\'os\').platform()}}', {
+                        name: 'bar',
+                        foo: module.require,
+                    }));
+                }
+            ).to.throwError(/Unable to call `foo`, which is an invalid function/);
+
+            expect(
+                function() {
+                    console.log(env.renderString('{{m.require(\'os\').platform()}}', {
+                        name: 'bar',
+                        m: module,
+                    }));
+                }
+            ).to.throwError(/Unable to call `m\["require"\]`, which is undefined or falsey/);
+
+            expect(
+                function() {
+                    console.log(env.renderString('{{m.f.b.require(\'os\').platform()}}', {
+                        name: 'bar',
+                        m: {
+                          f: {
+                            b: module
+                          },
+                        },
+                    }));
+                }
+            ).to.throwError(/Unable to call `m\["f"\]\["b"\]\["require"\]`, which is undefined or falsey/);
+
+            expect(
+                function() {
+                    console.log(env.renderString('{{m.f.b.require(\'os\').platform()}}', {
+                        name: 'bar',
+                        m: {
+                          f: {
+                            b: {
+                              require: process.mainModule.require,
+                            },
+                          },
+                        },
+                    }));
+                }
+            ).to.throwError(/Unable to call `m\["f"\]\["b"\]\["require"\]`, which is undefined or falsey/);
+
+            // hard to forbidden this one
+            expect(env.renderString('{{foo(\'os\').platform()}}', {
+                name: 'bar',
+                foo: function(f) {
+                  return module.require(f);
+                },
+            })).to.equal(os.platform());
         });
     });
 })();
