@@ -211,20 +211,24 @@ var filters = {
         if (old instanceof RegExp) {
             return str.replace(old, new_);
         }
+        if (typeof maxCount === 'undefined') {
+            maxCount = -1;
+        }
 
-        var res = str;
-        var last = res;
-        var count = 1;
+        var res = '';
+        var count = 0;
+        var nextIndex = str.indexOf(old);
+        var pos = 0;
         res = res.replace(old, new_);
 
-        while(last !== res) {
-            if(count >= maxCount) {
-                break;
-            }
-
-            last = res;
-            res = res.replace(old, new_);
+        while(nextIndex > -1 && (maxCount === -1 || count < maxCount)) {
+            res += str.substring(pos, nextIndex) + new_;
+            pos = nextIndex + old.length;
             count++;
+            nextIndex = str.indexOf(old, pos);
+        }
+        if (pos < str.length) {
+            res += str.substring(pos);
         }
 
         return r.copySafeness(str, res);
