@@ -1,4 +1,10 @@
 
+1.3.11 / 2019-11-07
+==================
+
+**fixes**
+  * [[`91e1f15`](http://github.com/node-modules/nunjucks/commit/91e1f1534d425d31d3b3dadc6fdf1877f873c583)] - fix: fix infinite loop in replace filter (#8) (killa <<killa123@126.com>>)
+
 1.3.10 / 2017-09-22
 ==================
 
