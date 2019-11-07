@@ -9,7 +9,7 @@
   "browser": "./browser/nunjucks.js",
   "devDependencies": {
     "expect.js": "*",
-    "mocha": "*",
+    "mocha": "^3.5.3",
     "uglify-js": "*",
     "express": "4.x",
     "supertest": "*",

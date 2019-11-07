@@ -236,6 +236,7 @@
             equal('{{ "aaaAAA" | replace(r/a/i, "z") }}', 'zaaAAA');
             equal('{{ "aaaAAA" | replace(r/a/g, "z") }}', 'zzzAAA');
             equal('{{ "aaaAAA" | replace(r/a/gi, "z") }}', 'zzzzzz');
+            equal('{{ "http://www.alipay.com" | replace("http", "https") }}', 'https://www.alipay.com');
 
             finish(done);
         });
